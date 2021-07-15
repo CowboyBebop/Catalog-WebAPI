@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using Catalog.Entities;
+using Catalog.Repositories;
+using Catalog.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Catalog.Controllers
+{
+    [ApiController]
+    [Route("items")]
+    public class ItemsController : ControllerBase
+    {
+        private readonly IItemsRepository repository;
+
+        public ItemsController(IItemsRepository repository)
+        {
+            this.repository = repository;
+        }
+
+        // GET /items
+        [HttpGet]
+        public async Task<IEnumerable<ItemDTO>> GetItemsAsync()
+        {
+            var items = (await repository.GetItemsAsync())
+                        .Select(item => item.AsDTO());
+
+            return items;
+        }
+
+        // GET /items/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ItemDTO>> GetItemAsync(Guid id)
+        {
+            var item = await repository.GetItemAsync(id);
+
+            if (item is null) return NotFound();
+
+            return item.AsDTO();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ItemDTO>> GetItemAsync(CreateItemDTO createItemDTO)
+        {
+            Item item = new()
+            {
+                Id = Guid.NewGuid(),
+                Name = createItemDTO.Name,
+                Price = createItemDTO.Price,
+                CreatedDate = DateTimeOffset.UtcNow
+            };
+
+            await repository.CreateItemAsync(item);
+
+            return CreatedAtAction(nameof(GetItemAsync), new { id = item.Id }, item.AsDTO());
+        }
+
+        // PUT /items
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateItemAsync(Guid id, UpdateItemDTO updateItemDTO)
+        {
+            var existingItem = await repository.GetItemAsync(id);
+
+            if (existingItem is null) return NotFound();
+
+            Item updatedItem = existingItem with
+            {
+                Name = updateItemDTO.Name,
+                Price = updateItemDTO.Price
+            };
+
+
+            await repository.UpdateItemAsync(updatedItem);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteItemAsync(Guid id)
+        {
+            var existingItem = await repository.GetItemAsync(id);
+
+            if (existingItem is null) return NotFound();
+
+            await repository.DeleteItemAsync(id);
+
+            return NoContent();
+        }
+
+    }
+}
