@@ -40,7 +40,6 @@ namespace Catalog.Repositories
         public async Task<IEnumerable<Item>> GetItemsAsync()
         {
             return await itemsCollection.Find(new BsonDocument()).ToListAsync();;
-            
         }
 
         public async Task UpdateItemAsync(Item item)
