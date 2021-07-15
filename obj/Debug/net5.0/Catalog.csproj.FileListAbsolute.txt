@@ -39,3 +39,6 @@ C:\Users\helen\Desktop\Catalog\bin\Debug\net5.0\runtimes\win\native\snappy64.dll
 C:\Users\helen\Desktop\Catalog\bin\Debug\net5.0\runtimes\linux\native\libmongocrypt.so
 C:\Users\helen\Desktop\Catalog\bin\Debug\net5.0\runtimes\osx\native\libmongocrypt.dylib
 C:\Users\helen\Desktop\Catalog\bin\Debug\net5.0\runtimes\win\native\mongocrypt.dll
+C:\Users\helen\Desktop\Catalog\bin\Debug\net5.0\HealthChecks.MongoDb.dll
+C:\Users\helen\Desktop\Catalog\bin\Debug\net5.0\Microsoft.Extensions.Diagnostics.HealthChecks.dll
+C:\Users\helen\Desktop\Catalog\bin\Debug\net5.0\Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
